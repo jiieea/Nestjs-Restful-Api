@@ -9,8 +9,13 @@ import {
   UsePipes,
 } from '@nestjs/common';
 import { UserService } from './user.service';
-import { UserLoginRequest, userLoginValidation } from '../../model/user.model';
+import {
+  UserLoginRequest,
+  userLoginValidation,
+  UserResponse,
+} from '../../model/user.model';
 import { UserValidationPipe } from '../../validation/validation.pipe';
+import { WebModel } from '../../model/web.model';
 @Controller()
 export class UserController {
   constructor(private readonly userService: UserService) {}
@@ -19,14 +24,14 @@ export class UserController {
     return `get user with id ${id}`;
   }
 
-  @Post('/create')
+  @Post('/api/users')
   async createUser(
-    @Query('username') username: string,
-    @Query('password') password: string,
-    @Query('name') name: string,
-  ) {
-    await this.userService.createUser(username, password, name);
-    return 'User created successfully';
+    @Body() request: UserLoginRequest,
+  ): Promise<WebModel<UserResponse>> {
+    const result = await this.userService.register(request);
+    return {
+      data: result,
+    };
   }
 
   @UsePipes(new UserValidationPipe(userLoginValidation))

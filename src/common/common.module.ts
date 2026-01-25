@@ -1,10 +1,21 @@
-import { Module } from '@nestjs/common';
+import {
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+  RequestMethod,
+} from '@nestjs/common';
 import { WinstonModule } from 'nest-winston';
 import * as winston from 'winston';
 import { ConfigModule } from '@nestjs/config';
 import { PrismaService } from '../prisma/prisma.service';
 import { UserController } from './user/user.controller';
 import { UserService } from './user/user.service';
+import { APP_FILTER } from '@nestjs/core';
+import { ValidationFilter } from '../validation/validation.filter';
+import { LogMiddleware } from '../middlewares/log/log.middleware';
+import { ValidationService } from '../validation/validation.service';
+import { UserFilter } from './user/user.filter';
+
 @Module({
   imports: [
     WinstonModule.forRoot({
@@ -17,6 +28,25 @@ import { UserService } from './user/user.service';
     }),
   ],
   controllers: [UserController],
-  providers: [PrismaService, UserService],
+  providers: [
+    PrismaService,
+    ValidationService,
+    UserService,
+    {
+      provide: APP_FILTER,
+      useClass: ValidationFilter,
+    },
+    {
+      provide: APP_FILTER,
+      useClass: UserFilter,
+    },
+  ],
 })
-export class CommonModule {}
+export class CommonModule implements NestModule {
+  configure(consumer: MiddlewareConsumer): any {
+    consumer.apply(LogMiddleware).forRoutes({
+      path: '/*',
+      method: RequestMethod.ALL,
+    });
+  }
+}
