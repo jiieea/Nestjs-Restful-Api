@@ -28,9 +28,11 @@ export class UserService {
       },
     });
     if (existingUser != 0) {
-      throw new HttpException('User already exists', HttpStatus.NOT_FOUND);
+      throw new HttpException(
+        'User already exists with the same username',
+        HttpStatus.NOT_FOUND,
+      );
     }
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     registerUser.password = await bcrypt.hash(registerUser.password, 10);
     await this.prismaService.user.create({
       data: registerUser,

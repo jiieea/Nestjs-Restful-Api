@@ -7,6 +7,7 @@ import {
   Post,
   Body,
   UsePipes,
+  HttpCode,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import {
@@ -25,6 +26,7 @@ export class UserController {
   }
 
   @Post('/api/users')
+  @HttpCode(200)
   async createUser(
     @Body() request: UserLoginRequest,
   ): Promise<WebModel<UserResponse>> {

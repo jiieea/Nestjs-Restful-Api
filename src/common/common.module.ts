@@ -11,7 +11,6 @@ import { PrismaService } from '../prisma/prisma.service';
 import { UserController } from './user/user.controller';
 import { UserService } from './user/user.service';
 import { APP_FILTER } from '@nestjs/core';
-import { ValidationFilter } from '../validation/validation.filter';
 import { LogMiddleware } from '../middlewares/log/log.middleware';
 import { ValidationService } from '../validation/validation.service';
 import { UserFilter } from './user/user.filter';
@@ -32,10 +31,6 @@ import { UserFilter } from './user/user.filter';
     PrismaService,
     ValidationService,
     UserService,
-    {
-      provide: APP_FILTER,
-      useClass: ValidationFilter,
-    },
     {
       provide: APP_FILTER,
       useClass: UserFilter,
