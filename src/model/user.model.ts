@@ -21,3 +21,8 @@ export const userLoginValidation = z.object({
   username: z.string().min(1).max(5),
   password: z.string().min(1).max(5),
 });
+
+export class UserUpdateRequest {
+  name?: string;
+  password?: string;
+}

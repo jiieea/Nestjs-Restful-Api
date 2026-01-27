@@ -7,7 +7,9 @@ import {
   Post,
   Body,
   UsePipes,
+  Delete,
   HttpCode,
+  Patch,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import * as client from '../../../generated/prisma/client';
@@ -16,6 +18,7 @@ import {
   userLoginValidation,
   UserRegisterRequest,
   UserResponse,
+  UserUpdateRequest,
 } from '../../model/user.model';
 import { UserValidationPipe } from '../../validation/validation.pipe';
 import { WebModel } from '../../model/web.model';
@@ -55,6 +58,25 @@ export class UserController {
     const result = await this.userService.login(request);
     return {
       data: result,
+    };
+  }
+  @Patch('/current')
+  @HttpCode(200)
+  async update(
+    @Auth() user: client.User,
+    @Body() request: UserUpdateRequest,
+  ): Promise<WebModel<UserResponse>> {
+    const result = await this.userService.update(user, request);
+    return {
+      data: result,
+    };
+  }
+  @Delete('/current')
+  @HttpCode(200)
+  async delete(@Auth() user: client.User): Promise<WebModel<boolean>> {
+    await this.userService.delete(user);
+    return {
+      data: true,
     };
   }
 

@@ -1,5 +1,9 @@
 import { z, ZodType } from 'zod';
-import { UserLoginRequest, UserRegisterRequest } from '../../model/user.model';
+import {
+  UserLoginRequest,
+  UserRegisterRequest,
+  UserUpdateRequest,
+} from '../../model/user.model';
 
 export class UserValidation {
   static readonly REGISTER: ZodType<UserRegisterRequest> = z.object({
@@ -20,5 +24,9 @@ export class UserValidation {
         message: 'Username must be start with uppercase letters.',
       }),
     password: z.string().min(1),
+  });
+  static readonly UPDATE: ZodType<UserUpdateRequest> = z.object({
+    name: z.string().min(1).optional(),
+    password: z.string().min(1).optional(),
   });
 }
