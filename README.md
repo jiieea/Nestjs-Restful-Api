@@ -21,16 +21,26 @@
   <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
   [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-## Description
+## NestJS RESTful API
+A modern, scalable RESTful API built with NestJS, a progressive Node.js framework for building efficient and reliable server-side applications.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
-## Project setup
-
+### 🚀 Features
+* Modular Architecture: Built with a clean, decoupled structure (Modules, Controllers, Services).
+* Type Safety: Fully written in TypeScript for robust development.
+* RESTful Endpoints: Full CRUD functionality for Create , Update , Delete , and Read.
+* Validation: Input validation using Zod.
+* Database: Integrated with MySQL using TypeORM/Prisma.
+  
+### Project setup
+### Clone The Repository:
 ```bash
-$ npm install
+git clone https://github.com/jiieea/Nestjs-Restful-Api.git
+cd Nestjs-Restful-Api
 ```
-
+### Install Depedencies:
+```bash
+npm install
+```
 ## Compile and run the project
 
 ```bash
