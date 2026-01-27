@@ -43,7 +43,7 @@ npm install
 ```
 ### 3. Set up Environtment Variables: Create a .env file int the root dir and add your configs:
 ```Code snippet
-  DATABASE_URL="mysql://root:async15@localhost:3306/restapi"
+  DATABASE_URL="mysql://root:password@localhost:3306/db_name"
   DATABASE_HOST="localhost"
   DATABASE_USER="YOUR_DB_USERNAME"
   DATABASE_PASSWORD="YOUR_DB_PASSWORD"
