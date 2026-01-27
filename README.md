@@ -72,3 +72,16 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 ## 📂 Project Structure
+```Plaintext
+src/
+├── app.module.ts        # Root module
+├── main.ts              # Entry point
+├── [feature]/           # Feature-based folders (e.g., users, auth)
+│   ├── dto/             # Data Transfer Objects
+│   ├── entities/        # Database schemas
+│   ├── [feature].controller.ts
+│   ├── [feature].service.ts
+│   └── [feature].module.ts
+```
+## 📄 License
+This project is [MIT licensed](https://www.google.com/search?q=LICENSE&authuser=1)
