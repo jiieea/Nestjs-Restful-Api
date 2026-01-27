@@ -14,6 +14,7 @@ import { APP_FILTER } from '@nestjs/core';
 import { LogMiddleware } from '../middlewares/log/log.middleware';
 import { ValidationService } from '../validation/validation.service';
 import { UserFilter } from './user/user.filter';
+import { AuthMiddleware } from '../middlewares/auth/auth.middleware';
 
 @Module({
   imports: [
@@ -43,5 +44,6 @@ export class CommonModule implements NestModule {
       path: '/*',
       method: RequestMethod.ALL,
     });
+    consumer.apply(AuthMiddleware).forRoutes('/api/*');
   }
 }

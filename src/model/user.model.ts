@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export class UserLoginRequest {
+export class UserRegisterRequest {
   username: string;
   password: string;
   name: string;
@@ -9,7 +9,12 @@ export class UserLoginRequest {
 export class UserResponse {
   username: string;
   name: string;
-  token?: string;
+  token?: string | null;
+}
+
+export class UserLoginRequest {
+  username: string;
+  password: string;
 }
 
 export const userLoginValidation = z.object({

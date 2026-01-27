@@ -45,13 +45,13 @@ describe('UserController', () => {
       const response = await request(app.getHttpServer())
         .post('/api/users')
         .send({
-          username: 'Test',
-          password: 'test',
-          name: 'test',
+          username: 'Jieyra@30',
+          password: 'jiee123',
+          name: 'Jieyra',
         });
       logger.info(response.body);
       expect(response.status).toBe(200);
-      expect(response.body.data.username).toBe('Test');
+      expect(response.body.data.username).toBe('Jieyra@30');
     });
 
     it('should be rejected if username already exist', async () => {
@@ -59,13 +59,69 @@ describe('UserController', () => {
       const response = await request(app.getHttpServer())
         .post('/api/users')
         .send({
-          username: 'Test',
-          password: 'test',
-          name: 'test',
+          username: 'Jieyra@30',
+          password: 'jiee123',
+          name: 'Jieyra',
         });
       logger.info(response.body);
       expect(response.status).toBe(404);
       expect(response.body.errors).toBeDefined();
+    });
+  });
+  describe('POST /api/users/login', () => {
+    beforeEach(async () => {
+      await testService.deleteUser();
+      await testService.createUser();
+    });
+    it('should be rejected if request is not valid', async () => {
+      const response = await request(app.getHttpServer())
+        .post('/api/users/login')
+        .send({
+          username: '',
+          password: '',
+          name: '',
+        });
+      logger.info(response.body);
+      expect(response.status).toBe(400);
+      expect(response.body.errors).toBeDefined();
+    });
+
+    it('should be login', async () => {
+      const response = await request(app.getHttpServer())
+        .post('/api/users/login')
+        .send({
+          username: 'Jieyra@30',
+          password: 'jiee123',
+        });
+      logger.info(response.body);
+      expect(response.status).toBe(200);
+      expect(response.body.data.username).toBe('Jieyra@30');
+      expect(response.body.data.token).toBeDefined();
+    });
+  });
+
+  describe('GET /api/users/current', () => {
+    beforeEach(async () => {
+      await testService.deleteUser();
+      await testService.createUser();
+    });
+    it('should be rejected if token is not valid', async () => {
+      const response = await request(app.getHttpServer())
+        .get('/api/users/current')
+        .set('Authorization', 'Wrong');
+      logger.info(response.body);
+      expect(response.status).toBe(401);
+      expect(response.body.errors).toBeDefined();
+    });
+
+    it('should be get user', async () => {
+      const response = await request(app.getHttpServer())
+        .get('/api/users/current')
+        .set('Authorization', 'test');
+      logger.info(response.body);
+      expect(response.status).toBe(200);
+      expect(response.body.data.username).toBe('Jieyra@30');
+      expect(response.body.data.name).toBe('Jieyra');
     });
   });
 });
