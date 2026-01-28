@@ -1,5 +1,5 @@
 import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
-import { PrismaClient } from '../../generated/prisma/client';
+import { PrismaClient } from '../../generated/prisma';
 import { PrismaMariaDb } from '@prisma/adapter-mariadb';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { Logger } from 'winston';
@@ -22,6 +22,6 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
   }
 
   onModuleInit(): any {
-    this.logger.debug('PrismaService module initialized.');
+    this.logger.info('PrismaService module initialized.');
   }
 }

@@ -13,6 +13,7 @@ import { UserValidation } from './user.validation';
 import * as bcrypt from 'bcrypt';
 import { v4 as uuid } from 'uuid';
 import * as client from '../../../generated/prisma';
+
 @Injectable()
 export class UserService {
   constructor(
@@ -29,6 +30,7 @@ export class UserService {
         request,
       );
     this.logger.info(`Creating user with username ${registerUser.username}`);
+    // check if user already exist
     const existingUser = await this.prismaService.user.count({
       where: {
         username: registerUser.username,
@@ -40,8 +42,9 @@ export class UserService {
         HttpStatus.NOT_FOUND,
       );
     }
+    // hashing user password
     registerUser.password = await bcrypt.hash(registerUser.password, 10);
-    const user = await this.prismaService.user.create({
+    const user: UserResponse = await this.prismaService.user.create({
       data: registerUser,
     });
     return {
@@ -56,19 +59,22 @@ export class UserService {
       UserValidation.LOGIN,
       request,
     );
+    // find match username
     let existingUser = await this.prismaService.user.findUnique({
       where: {
         username: loginUser.username,
       },
     });
-
+    // throw error if user is not valid
     if (!existingUser) {
       throw new HttpException(`Username or Password invalid`, 401);
     }
+    // comparing password with existing password
     const password = await bcrypt.compare(
       loginUser.password,
       existingUser.password,
     );
+    // throw error if password does not match
     if (!password) {
       throw new HttpException(`Password invalid`, 401);
     }

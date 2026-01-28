@@ -15,23 +15,26 @@ import { LogMiddleware } from '../middlewares/log/log.middleware';
 import { ValidationService } from '../validation/validation.service';
 import { UserFilter } from './user/user.filter';
 import { AuthMiddleware } from '../middlewares/auth/auth.middleware';
+import { ContactService } from '../contact/contact.service';
+import { ContactController } from '../contact/contact.controller';
 
 @Module({
   imports: [
     WinstonModule.forRoot({
       format: winston.format.json(),
       level: 'debug',
-      transports: new winston.transports.Console(),
+      transports: [new winston.transports.Console()],
     }),
     ConfigModule.forRoot({
       isGlobal: true,
     }),
   ],
-  controllers: [UserController],
+  controllers: [UserController, ContactController],
   providers: [
     PrismaService,
-    ValidationService,
     UserService,
+    ContactService,
+    ValidationService,
     {
       provide: APP_FILTER,
       useClass: UserFilter,
