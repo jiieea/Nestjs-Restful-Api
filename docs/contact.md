@@ -47,7 +47,7 @@ Response Body :
             "first_name" : "Yves",
             "last_name"  : "Castillon",
             "email"      : "yves@examples.com",
-            "phone"      : "098984322" ,
+            "phone"      : "098984322"
         }
     }   
 
@@ -66,7 +66,7 @@ Request body :
             "first_name" : "Yves",
             "last_name" : "Castillon",
             "email" : "yves@examples.com",
-            "phone" : "098984322" ,
+            "phone" : "098984322"
         }
 ```
 
@@ -89,7 +89,7 @@ Headers :
 
 Response Body :
 ```json
-"data" : true
+"data": true,
 ```
 
 ## Search Contact

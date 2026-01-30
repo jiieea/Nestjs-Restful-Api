@@ -12,3 +12,11 @@ export class ContactResponse {
   email?: string | null;
   phone?: string | null;
 }
+
+export class UpdateContactRequest {
+  id: number;
+  first_name: string;
+  last_name?: string;
+  email?: string;
+  phone?: string;
+}

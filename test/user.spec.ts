@@ -48,13 +48,13 @@ describe('UserController', () => {
       const response = await request(app.getHttpServer())
         .post('/api/users')
         .send({
-          username: 'Jieyra@30',
-          password: 'jiee123',
-          name: 'Jieyra',
+          username: 'FlexCode',
+          password: 'atmin123',
+          name: 'Yves Castillon',
         });
       logger.info(response.body);
       expect(response.status).toBe(200);
-      expect(response.body.data.username).toBe('Jieyra@30');
+      expect(response.body.data.username).toBe('FlexCode');
     });
 
     it('should be rejected if username already exist', async () => {
@@ -62,9 +62,9 @@ describe('UserController', () => {
       const response = await request(app.getHttpServer())
         .post('/api/users')
         .send({
-          username: 'Jieyra@30',
-          password: 'jiee123',
-          name: 'Jieyra',
+          username: 'FlexCode',
+          password: 'atmin123',
+          name: 'Yves Castillon',
         });
       logger.info(response.body);
       expect(response.status).toBe(404);
@@ -96,12 +96,12 @@ describe('UserController', () => {
       const response = await request(app.getHttpServer())
         .post('/api/users/login')
         .send({
-          username: 'Jieyra@30',
-          password: 'jiee123',
+          username: 'FlexCode',
+          password: 'atmin123',
         });
       logger.info(response.body);
       expect(response.status).toBe(200);
-      expect(response.body.data.username).toBe('Jieyra@30');
+      expect(response.body.data.username).toBe('FlexCode');
       expect(response.body.data.token).toBeDefined();
     });
   });
@@ -126,11 +126,11 @@ describe('UserController', () => {
     it('should be get user', async () => {
       const response = await request(app.getHttpServer())
         .get('/api/users/current')
-        .set('Authorization', 'test');
+        .set('Authorization', 'atmin');
       logger.info(response.body);
       expect(response.status).toBe(200);
-      expect(response.body.data.username).toBe('Jieyra@30');
-      expect(response.body.data.name).toBe('Jieyra');
+      expect(response.body.data.username).toBe('FlexCode');
+      expect(response.body.data.name).toBe('Yves Castillon');
     });
   });
 

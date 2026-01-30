@@ -1,7 +1,7 @@
 import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
-import { PrismaClient } from '../../generated/prisma';
 import { PrismaMariaDb } from '@prisma/adapter-mariadb';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
+import { PrismaClient } from '../../generated/prisma/client';
 import { Logger } from 'winston';
 
 const adapter = new PrismaMariaDb({

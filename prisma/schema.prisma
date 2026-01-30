@@ -33,7 +33,7 @@ model Contact {
   username   String    @db.VarChar(100)
   Address    Address[]
 
-  user User @relation(fields: [username], references: [username])
+  user User @relation(fields: [username], references: [username], onDelete: Cascade)
 
   @@map("contacts")
 }
