@@ -20,3 +20,11 @@ export class UpdateContactRequest {
   email?: string;
   phone?: string;
 }
+
+export class SearchContactRequest {
+  name?: string; // Added '?' to make it optional
+  email?: string; // Added '?' to make it optional
+  phone?: string; // Added '?' to make it optional
+  page: number; // Keep required
+  size: number; // Keep required
+}

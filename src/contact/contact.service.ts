@@ -7,9 +7,11 @@ import * as client from '../../generated/prisma/client';
 import {
   ContactResponse,
   CreateContactRequest,
+  SearchContactRequest,
   UpdateContactRequest,
 } from '../model/contact.model';
 import { ValidationService } from '../validation/validation.service';
+import { WebModel } from '../model/web.model';
 @Injectable()
 export class ContactService {
   constructor(
@@ -100,5 +102,80 @@ export class ContactService {
     });
 
     return this.toContactResponse(deleteContact);
+  }
+
+  async search(
+    user: client.User,
+    request: SearchContactRequest,
+  ): Promise<WebModel<ContactResponse[]>> {
+    //   validation request
+    const searchRequest = this.validationService.validation(
+      ContactValidation.SEARCH,
+      request,
+    );
+
+    const filters = [];
+
+    if (searchRequest.name) {
+      // @ts-ignore
+      filters.push({
+        OR: [
+          {
+            first_name: {
+              contains: searchRequest.name,
+            },
+          },
+          {
+            last_name: {
+              contains: searchRequest.name,
+            },
+          },
+        ],
+      });
+    }
+
+    if (searchRequest.email) {
+      // @ts-ignore
+      filters.push({
+        email: {
+          contains: searchRequest.email,
+        },
+      });
+    }
+
+    if (searchRequest.phone) {
+      // @ts-ignore
+      filters.push({
+        phone: {
+          contains: searchRequest.phone,
+        },
+      });
+    }
+
+    const skip = (searchRequest.page - 1) * searchRequest.size;
+    const total = await this.prismaService.contact.count({
+      where: {
+        username: user.username,
+        AND: filters,
+      },
+    });
+
+    const contacts = await this.prismaService.contact.findMany({
+      where: {
+        username: user.username,
+        AND: filters,
+      },
+      take: searchRequest.size,
+      skip: skip,
+    });
+
+    return {
+      data: contacts.map((contact) => this.toContactResponse(contact)),
+      paging: {
+        current_page: searchRequest.page,
+        size: searchRequest.size,
+        total_page: Math.ceil(total / searchRequest.size),
+      },
+    };
   }
 }
