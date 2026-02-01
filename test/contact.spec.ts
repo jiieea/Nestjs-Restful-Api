@@ -51,7 +51,7 @@ describe('ContactController', () => {
     it('should be create contact', async () => {
       const response = await request(app.getHttpServer())
         .post('/api/contact')
-        .set('Authorization', 'atmin')
+        .set('Authorization', 'test123')
         .send({
           first_name: 'Zheeva',
           last_name: 'Azizah',

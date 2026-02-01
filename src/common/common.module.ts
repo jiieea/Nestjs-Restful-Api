@@ -15,8 +15,6 @@ import { LogMiddleware } from '../middlewares/log/log.middleware';
 import { ValidationService } from '../validation/validation.service';
 import { UserFilter } from './user/user.filter';
 import { AuthMiddleware } from '../middlewares/auth/auth.middleware';
-import { ContactService } from '../contact/contact.service';
-import { ContactController } from '../contact/contact.controller';
 
 @Module({
   imports: [
@@ -29,11 +27,10 @@ import { ContactController } from '../contact/contact.controller';
       isGlobal: true,
     }),
   ],
-  controllers: [UserController, ContactController],
+  controllers: [UserController],
   providers: [
     PrismaService,
     UserService,
-    ContactService,
     ValidationService,
     {
       provide: APP_FILTER,

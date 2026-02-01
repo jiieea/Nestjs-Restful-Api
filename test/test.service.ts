@@ -1,5 +1,5 @@
 import { PrismaService } from '../src/prisma/prisma.service';
-import { Injectable, OnModuleDestroy } from '@nestjs/common';
+import { HttpException, Injectable, OnModuleDestroy } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import * as client from '../generated/prisma/client';
 @Injectable()
@@ -14,6 +14,10 @@ export class TestService implements OnModuleDestroy {
         username: 'FlexCode',
       },
     });
+  }
+
+  async deleteAddress() {
+    await this.prisma.address.deleteMany({});
   }
 
   async deleteContact() {
@@ -57,6 +61,35 @@ export class TestService implements OnModuleDestroy {
         password: await bcrypt.hash('atmin123', 10),
         name: 'Yves Castillon',
         token: 'atmin',
+      },
+    });
+  }
+
+  async getAddress(): Promise<client.Address> {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
+    return this.prisma.address.findFirst({
+      where: {
+        contact: {
+          username: 'FlexCode',
+        },
+      },
+    });
+  }
+
+  async createAddress() {
+    const contact = await this.getContact();
+    if (!contact) {
+      throw new HttpException('Not Found', 404);
+    }
+    await this.prisma.address.create({
+      data: {
+        contact_id: contact.id,
+        street: 'jl.sample',
+        city: 'kota sample',
+        province: 'provinsi sample',
+        country: 'negara sample',
+        postal_code: '1111',
       },
     });
   }
