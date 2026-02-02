@@ -104,7 +104,7 @@ Headers:
 Response Body  :
 ```json
     {
-      data : true
+      "data" : true
     }
 
 ```

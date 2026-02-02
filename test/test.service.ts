@@ -35,6 +35,22 @@ export class TestService implements OnModuleDestroy {
     });
   }
 
+  async deleteAll() {
+    await this.prisma.address.deleteMany({});
+
+    await this.prisma.contact.deleteMany({
+      where: {
+        username: 'FlexCode',
+      },
+    });
+
+    await this.prisma.user.deleteMany({
+      where: {
+        username: 'FlexCode',
+      },
+    });
+  }
+
   async getContact(): Promise<client.Contact | null> {
     return this.prisma.contact.findFirst({
       where: {
@@ -58,7 +74,7 @@ export class TestService implements OnModuleDestroy {
     await this.prisma.user.create({
       data: {
         username: 'FlexCode',
-        password: await bcrypt.hash('atmin123', 10),
+        password: 'atmin123',
         name: 'Yves Castillon',
         token: 'atmin',
       },
@@ -85,11 +101,11 @@ export class TestService implements OnModuleDestroy {
     await this.prisma.address.create({
       data: {
         contact_id: contact.id,
-        street: 'jl.sample',
-        city: 'kota sample',
-        province: 'provinsi sample',
-        country: 'negara sample',
-        postal_code: '1111',
+        street: 'jl.tebet',
+        city: 'kota tebet',
+        province: 'provinsi jaksen',
+        country: 'negara indo',
+        postal_code: '101032',
       },
     });
   }

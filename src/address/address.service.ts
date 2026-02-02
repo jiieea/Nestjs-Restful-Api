@@ -1,5 +1,10 @@
 import { PrismaService } from '../prisma/prisma.service';
-import { Inject, NotFoundException } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Inject,
+  NotFoundException,
+} from '@nestjs/common';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { Logger } from 'winston';
 import { ValidationService } from '../validation/validation.service';
@@ -120,4 +125,6 @@ export class AddressService {
 
     return this.toAddressResponse(updatedAddress);
   }
+
+  async delete()
 }
