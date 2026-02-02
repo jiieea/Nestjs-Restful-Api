@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { INestApplication } from '@nestjs/common';
+import { HttpException, INestApplication } from '@nestjs/common';
 import request from 'supertest';
 import { App } from 'supertest/types';
 import { Logger } from 'winston';
@@ -37,6 +37,9 @@ describe('AddressController', () => {
 
     it('should be rejected if contact is not found', async () => {
       const contact = await testService.getContact();
+      if (!contact) {
+        throw new HttpException('Not Found', 404);
+      }
       const response = await request(app.getHttpServer())
         .post(`/api/contact/${contact.id + 1}/addresses`)
         .set('Authorization', 'atmin')
@@ -54,6 +57,9 @@ describe('AddressController', () => {
 
     it('should be create address', async () => {
       const contact = await testService.getContact();
+      if (!contact) {
+        throw new HttpException('Not Found', 404);
+      }
       const response = await request(app.getHttpServer())
         .post(`/api/contact/${contact.id}/addresses`)
         .set('Authorization', 'atmin')
@@ -85,6 +91,9 @@ describe('AddressController', () => {
 
     it('should be rejected if contact is not found', async () => {
       const contact = await testService.getContact();
+      if (!contact) {
+        throw new HttpException('Not Found', 404);
+      }
       const address = await testService.getAddress();
       const response = await request(app.getHttpServer())
         .get(`/api/contact/${contact.id + 1}/addresses/${address.id}`)
@@ -96,6 +105,9 @@ describe('AddressController', () => {
 
     it('should be rejected if address is not found', async () => {
       const contact = await testService.getContact();
+      if (!contact) {
+        throw new HttpException('Not Found', 404);
+      }
       const address = await testService.getAddress();
       const response = await request(app.getHttpServer())
         .get(`/api/contact/${contact.id}/addresses/${address.id + 1}`)
@@ -106,6 +118,9 @@ describe('AddressController', () => {
     });
     it('should be get addresses', async () => {
       const contact = await testService.getContact();
+      if (!contact) {
+        throw new HttpException('Not Found', 404);
+      }
       const address = await testService.getAddress();
       const response = await request(app.getHttpServer())
         .get(`/api/contact/${contact.id}/addresses/${address.id}`)
@@ -131,6 +146,9 @@ describe('AddressController', () => {
 
     it('should be rejected if request is not valid', async () => {
       const contact = await testService.getContact();
+      if (!contact) {
+        throw new HttpException('Not Found', 404);
+      }
       const address = await testService.getAddress();
       const response = await request(app.getHttpServer())
         .put(`/api/contact/${contact.id}/addresses/${address.id}`)
@@ -149,6 +167,9 @@ describe('AddressController', () => {
 
     it('should be rejected if current address is not found', async () => {
       const contact = await testService.getContact();
+      if (!contact) {
+        throw new HttpException('Not Found', 404);
+      }
       const address = await testService.getAddress();
       const response = await request(app.getHttpServer())
         .put(`/api/contact/${contact.id}/addresses/${address.id + 1}`)
@@ -167,6 +188,9 @@ describe('AddressController', () => {
 
     it('should be update address', async () => {
       const contact = await testService.getContact();
+      if (!contact) {
+        throw new HttpException('Not Found', 404);
+      }
       const address = await testService.getAddress();
       const response = await request(app.getHttpServer())
         .put(`/api/contact/${contact.id}/addresses/${address.id}`)
@@ -185,6 +209,44 @@ describe('AddressController', () => {
       expect(response.body.data.province).toBe('provinsi update');
       expect(response.body.data.country).toBe('negara update');
       expect(response.body.data.postal_code).toBe('131100');
+    });
+  });
+
+  describe('DELETE /api/contact/:contactId/addresses/:addressId', () => {
+    beforeEach(async () => {
+      await testService.deleteAll();
+
+      await testService.createUser();
+      await testService.createContact();
+      await testService.createAddress();
+    });
+
+    it('should be rejected if address is not found', async () => {
+      const contact = await testService.getContact();
+      if (!contact) {
+        throw new HttpException('Not Found', 404);
+      }
+      const address = await testService.getAddress();
+      const response = await request(app.getHttpServer())
+        .delete(`/api/contact/${contact.id}/addresses/${address.id + 1}`)
+        .set('Authorization', 'atmin');
+      logger.info(response.body);
+      expect(response.status).toBe(404);
+      expect(response.body.errors).toBeDefined();
+    });
+
+    it('should be delete address', async () => {
+      const contact = await testService.getContact();
+      if (!contact) {
+        throw new HttpException('Not Found', 404);
+      }
+      const address = await testService.getAddress();
+      const response = await request(app.getHttpServer())
+        .delete(`/api/contact/${contact.id}/addresses/${address.id}`)
+        .set('Authorization', 'atmin');
+      logger.info(response.body);
+      expect(response.status).toBe(200);
+      expect(response.body.data).toBe(true);
     });
   });
 });

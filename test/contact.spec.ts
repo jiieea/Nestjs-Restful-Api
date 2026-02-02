@@ -176,15 +176,6 @@ describe('ContactController', () => {
     afterEach(async () => {
       await app.close();
     });
-    it('should be rejected if request is not valid', async () => {
-      const contact = await testService.getContact();
-      const response = await request(app.getHttpServer())
-        .delete(`/api/contact/${contact.id + 1}`)
-        .set('Authorization', 'atmin');
-      logger.info(response.body);
-      expect(response.status).toBe(404);
-      expect(response.body.errors).toBeDefined();
-    });
 
     it('should be rejected if contact is not found', async () => {
       const contact = await testService.getContact();

@@ -1,6 +1,6 @@
 import {
   Body,
-  Controller,
+  Controller, Delete,
   Get,
   HttpCode,
   Param,
@@ -12,6 +12,7 @@ import * as client from '../../generated/prisma';
 import { AddressResponse, CreateAddressRequest, UpdateAddressRequest } from '../model/address.model';
 import { WebModel } from '../model/web.model';
 import { Auth } from '../middlewares/auth/auth.decorator';
+import request from 'supertest';
 @Controller('/api/contact/:contactId/addresses')
 export class AddressController {
   constructor(private addressService: AddressService) {}
@@ -59,6 +60,20 @@ export class AddressController {
     const result = await this.addressService.update(user, request);
     return {
       data: result,
+    };
+  }
+
+  @Delete('/:addressId')
+  @HttpCode(200)
+  async delete(
+    @Auth() user: client.User,
+    @Param('addressId', ParseIntPipe) addressId: number,
+    @Param('contactId', ParseIntPipe) contactId: number,
+  ): Promise<WebModel<boolean>> {
+    await this.addressService.delete(user, addressId, contactId);
+
+    return {
+      data: true,
     };
   }
 }

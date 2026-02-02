@@ -126,5 +126,20 @@ export class AddressService {
     return this.toAddressResponse(updatedAddress);
   }
 
-  async delete()
+  async delete(
+    user: client.User,
+    addressId: number,
+    contactId: number,
+  ): Promise<AddressResponse> {
+    await this.contactService.checkContactToBeExist(user.username, contactId);
+    const addressExist = await this.addressMustBeExist(contactId, addressId);
+    if (!addressExist) throw new NotFoundException();
+    await this.prismaService.address.delete({
+      where: {
+        id: addressId,
+      },
+    });
+
+    return this.toAddressResponse(addressExist);
+  }
 }
