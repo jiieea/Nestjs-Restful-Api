@@ -1,7 +1,7 @@
 import { PrismaService } from '../src/prisma/prisma.service';
 import { HttpException, Injectable, OnModuleDestroy } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
-import * as client from '../generated/prisma/client';
+import { Address, Contact } from '@prisma/client';
 @Injectable()
 export class TestService implements OnModuleDestroy {
   constructor(private prisma: PrismaService) {}
@@ -46,7 +46,7 @@ export class TestService implements OnModuleDestroy {
     });
   }
 
-  async getContact(): Promise<client.Contact | null> {
+  async getContact(): Promise<Contact | null> {
     return this.prisma.contact.findFirst({
       where: {
         username: 'TestUser',
@@ -77,7 +77,7 @@ export class TestService implements OnModuleDestroy {
     });
   }
 
-  async getAddress(): Promise<client.Address> {
+  async getAddress(): Promise<Address> {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error
     return this.prisma.address.findFirst({

@@ -42,7 +42,7 @@ describe('AddressController', () => {
       }
       const response = await request(app.getHttpServer())
         .post(`/api/contact/${contact.id + 1}/addresses`)
-        .set('Authorization', 'atmin')
+        .set('Authorization', '2020434')
         .send({
           street: '',
           city: '',
@@ -62,7 +62,7 @@ describe('AddressController', () => {
       }
       const response = await request(app.getHttpServer())
         .post(`/api/contact/${contact.id}/addresses`)
-        .set('Authorization', 'atmin')
+        .set('Authorization', '2020434')
         .send({
           street: 'jl.tebet',
           city: 'kota tebet',
@@ -97,7 +97,7 @@ describe('AddressController', () => {
       const address = await testService.getAddress();
       const response = await request(app.getHttpServer())
         .get(`/api/contact/${contact.id + 1}/addresses/${address.id}`)
-        .set('Authorization', 'atmin');
+        .set('Authorization', '2020434');
       logger.info(response.body);
       expect(response.status).toBe(404);
       expect(response.body.errors).toBeDefined();
@@ -111,7 +111,7 @@ describe('AddressController', () => {
       const address = await testService.getAddress();
       const response = await request(app.getHttpServer())
         .get(`/api/contact/${contact.id}/addresses/${address.id + 1}`)
-        .set('Authorization', 'atmin');
+        .set('Authorization', '2020434');
       logger.info(response.body);
       expect(response.status).toBe(404);
       expect(response.body.errors).toBeDefined();
@@ -124,12 +124,12 @@ describe('AddressController', () => {
       const address = await testService.getAddress();
       const response = await request(app.getHttpServer())
         .get(`/api/contact/${contact.id}/addresses/${address.id}`)
-        .set('Authorization', 'atmin');
+        .set('Authorization', '2020434');
       logger.info(response.body);
       expect(response.status).toBe(200);
       expect(response.body.data.street).toBe('jl.tebet');
       expect(response.body.data.city).toBe('kota tebet');
-      expect(response.body.data.province).toBe('provinsi jaksen');
+      expect(response.body.data.province).toBe('provinsi jaksel');
       expect(response.body.data.country).toBe('negara indo');
       expect(response.body.data.postal_code).toBe('101032');
     });
@@ -152,7 +152,7 @@ describe('AddressController', () => {
       const address = await testService.getAddress();
       const response = await request(app.getHttpServer())
         .put(`/api/contact/${contact.id}/addresses/${address.id}`)
-        .set('Authorization', 'atmin')
+        .set('Authorization', '2020434')
         .send({
           street: '',
           city: '',
@@ -173,7 +173,7 @@ describe('AddressController', () => {
       const address = await testService.getAddress();
       const response = await request(app.getHttpServer())
         .put(`/api/contact/${contact.id}/addresses/${address.id + 1}`)
-        .set('Authorization', 'atmin')
+        .set('Authorization', '2020434')
         .send({
           street: 'jl.test',
           city: 'test',
@@ -194,7 +194,7 @@ describe('AddressController', () => {
       const address = await testService.getAddress();
       const response = await request(app.getHttpServer())
         .put(`/api/contact/${contact.id}/addresses/${address.id}`)
-        .set('Authorization', 'atmin')
+        .set('Authorization', '2020434')
         .send({
           street: 'jl.update',
           city: 'kota update',
@@ -228,7 +228,7 @@ describe('AddressController', () => {
       }
       const response = await request(app.getHttpServer())
         .get(`/api/contact/${contact.id + 1}/addresses`)
-        .set('Authorization', 'atmin');
+        .set('Authorization', '2020434');
       logger.info(response.body);
       expect(response.status).toBe(404);
       expect(response.body.errors).toBeDefined();
@@ -241,13 +241,13 @@ describe('AddressController', () => {
       }
       const response = await request(app.getHttpServer())
         .get(`/api/contact/${contact.id}/addresses`)
-        .set('Authorization', 'atmin');
+        .set('Authorization', '2020434');
       logger.info(response.body);
       expect(response.status).toBe(200);
       expect(response.body.data.length).toBe(1);
       expect(response.body.data[0].street).toBe('jl.tebet');
       expect(response.body.data[0].city).toBe('kota tebet');
-      expect(response.body.data[0].province).toBe('provinsi jaksen');
+      expect(response.body.data[0].province).toBe('provinsi jaksel');
       expect(response.body.data[0].country).toBe('negara indo');
       expect(response.body.data[0].postal_code).toBe('101032');
     });
@@ -270,7 +270,7 @@ describe('AddressController', () => {
       const address = await testService.getAddress();
       const response = await request(app.getHttpServer())
         .delete(`/api/contact/${contact.id}/addresses/${address.id + 1}`)
-        .set('Authorization', 'atmin');
+        .set('Authorization', '2020434');
       logger.info(response.body);
       expect(response.status).toBe(404);
       expect(response.body.errors).toBeDefined();
@@ -284,7 +284,7 @@ describe('AddressController', () => {
       const address = await testService.getAddress();
       const response = await request(app.getHttpServer())
         .delete(`/api/contact/${contact.id}/addresses/${address.id}`)
-        .set('Authorization', 'atmin');
+        .set('Authorization', '2020434');
       logger.info(response.body);
       expect(response.status).toBe(200);
       expect(response.body.data).toBe(true);

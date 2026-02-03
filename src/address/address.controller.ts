@@ -1,6 +1,7 @@
 import {
   Body,
-  Controller, Delete,
+  Controller,
+  Delete,
   Get,
   HttpCode,
   Param,
@@ -8,7 +9,7 @@ import {
   Post, Put,
 } from '@nestjs/common';
 import { AddressService } from './address.service';
-import * as client from '../../generated/prisma';
+import * as client from '@prisma/client';
 import {
   AddressResponse,
   CreateAddressRequest,
@@ -17,7 +18,6 @@ import {
 } from '../model/address.model';
 import { WebModel } from '../model/web.model';
 import { Auth } from '../middlewares/auth/auth.decorator';
-import request from 'supertest';
 @Controller('/api/contact/:contactId/addresses')
 export class AddressController {
   constructor(private addressService: AddressService) {}

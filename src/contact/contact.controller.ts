@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 import { ContactService } from './contact.service';
 import { Auth } from '../middlewares/auth/auth.decorator';
-import * as client from '../../generated/prisma/client';
+import * as client from '@prisma/client';
 import {
   ContactResponse,
   CreateContactRequest,

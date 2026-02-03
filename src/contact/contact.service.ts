@@ -3,7 +3,7 @@ import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { Logger } from 'winston';
 import { PrismaService } from '../prisma/prisma.service';
 import { ContactValidation } from './contact.validation';
-import * as client from '../../generated/prisma/client';
+import * as client from '@prisma/client';
 import {
   ContactResponse,
   CreateContactRequest,

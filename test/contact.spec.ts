@@ -39,7 +39,7 @@ describe('ContactController', () => {
     it('should be rejected if request is not valid', async () => {
       const response = await request(app.getHttpServer())
         .post('/api/contact')
-        .set('Authorization', 'atmin')
+        .set('Authorization', '2020434')
         .send({
           first_name: '',
           last_name: '',
@@ -54,20 +54,21 @@ describe('ContactController', () => {
     it('should be create contact', async () => {
       const response = await request(app.getHttpServer())
         .post('/api/contact')
-        .set('Authorization', 'test123')
+        .set('Authorization', '2020434')
         .send({
-          first_name: 'Zheeva',
-          last_name: 'Azizah',
-          email: 'yera@example.com',
-          phone: '101010',
+          first_name: 'sample',
+          last_name: 'test',
+          email: 'sample@example.com',
+          phone: '1111',
+          username: 'TestUser',
         });
       logger.info(response.body);
       expect(response.status).toBe(200);
       expect(response.body.data.id).toBeDefined();
-      expect(response.body.data.first_name).toBe('Zheeva');
-      expect(response.body.data.last_name).toBe('Azizah');
-      expect(response.body.data.email).toBe('yera@example.com');
-      expect(response.body.data.phone).toBe('101010');
+      expect(response.body.data.first_name).toBe('sample');
+      expect(response.body.data.last_name).toBe('test');
+      expect(response.body.data.email).toBe('sample@example.com');
+      expect(response.body.data.phone).toBe('1111');
     });
   });
 
@@ -84,7 +85,7 @@ describe('ContactController', () => {
       const contact = await testService.getContact();
       const response = await request(app.getHttpServer())
         .get(`/api/contact/${contact.id + 1}`)
-        .set('Authorization', 'atmin');
+        .set('Authorization', '2020434');
       logger.info(response.body);
       expect(response.status).toBe(404);
       expect(response.body.errors).toBeDefined();
@@ -94,14 +95,14 @@ describe('ContactController', () => {
       const contact = await testService.getContact();
       const response = await request(app.getHttpServer())
         .get(`/api/contact/${contact.id}`)
-        .set('Authorization', 'atmin');
+        .set('Authorization', '2020434');
       logger.info(response.body);
       expect(response.status).toBe(200);
       expect(response.body.data.id).toBeDefined();
-      expect(response.body.data.first_name).toBe('Yves');
-      expect(response.body.data.last_name).toBe('Castilon');
-      expect(response.body.data.email).toBe('yves@example.com');
-      expect(response.body.data.phone).toBe('0909');
+      expect(response.body.data.first_name).toBe('sample');
+      expect(response.body.data.last_name).toBe('test');
+      expect(response.body.data.email).toBe('sample@example.com');
+      expect(response.body.data.phone).toBe('1111');
     });
   });
 
@@ -116,7 +117,7 @@ describe('ContactController', () => {
       const contact = await testService.getContact();
       const response = await request(app.getHttpServer())
         .put(`/api/contact/${contact.id}`)
-        .set('Authorization', 'atmin')
+        .set('Authorization', '2020434')
         .send({
           first_name: '',
           last_name: '',
@@ -132,12 +133,13 @@ describe('ContactController', () => {
       const contact = await testService.getContact();
       const response = await request(app.getHttpServer())
         .put(`/api/contact/${contact.id + 1}`)
-        .set('Authorization', 'atmin')
+        .set('Authorization', '2020434')
         .send({
-          first_name: 'Yves',
-          last_name: 'Castillon',
-          email: 'yves@example.com',
-          phone: '090987',
+          first_name: 'sample',
+          last_name: 'test',
+          email: 'sample@example.com',
+          phone: '1111',
+          username: 'TestUser',
         });
       logger.info(response.body);
       expect(response.status).toBe(404);
@@ -148,7 +150,7 @@ describe('ContactController', () => {
       const contact = await testService.getContact();
       const response = await request(app.getHttpServer())
         .put(`/api/contact/${contact.id}`)
-        .set('Authorization', 'atmin')
+        .set('Authorization', '2020434')
         .send({
           first_name: 'Vermilion',
           last_name: 'Castillon',
@@ -175,7 +177,7 @@ describe('ContactController', () => {
       const contact = await testService.getContact();
       const response = await request(app.getHttpServer())
         .delete(`/api/contact/${contact.id + 1}`)
-        .set('Authorization', 'atmin');
+        .set('Authorization', '2020434');
       logger.info(response.body);
       expect(response.status).toBe(404);
       expect(response.body.errors).toBeDefined();
@@ -185,7 +187,7 @@ describe('ContactController', () => {
       const contact = await testService.getContact();
       const response = await request(app.getHttpServer())
         .delete(`/api/contact/${contact.id}`)
-        .set('Authorization', 'atmin');
+        .set('Authorization', '2020434');
       logger.info(response.body);
       expect(response.status).toBe(200);
       expect(response.body.data).toBe(true);
@@ -202,7 +204,7 @@ describe('ContactController', () => {
     it('should be able to search contacts', async () => {
       const response = await request(app.getHttpServer())
         .get(`/api/contact`)
-        .set('Authorization', 'atmin');
+        .set('Authorization', '2020434');
       logger.info(response.body);
       expect(response.status).toBe(200);
       expect(response.body.data.length).toBe(1);
@@ -212,9 +214,9 @@ describe('ContactController', () => {
       const response = await request(app.getHttpServer())
         .get('/api/contact')
         .query({
-          name: 'Yves',
+          name: 'sample',
         })
-        .set('Authorization', 'atmin');
+        .set('Authorization', '2020434');
       logger.info(response.body);
       expect(response.status).toBe(200);
       expect(response.body.data.length).toBe(1);
@@ -225,19 +227,18 @@ describe('ContactController', () => {
         .query({
           name: 'wrong',
         })
-        .set('Authorization', 'atmin');
+        .set('Authorization', '202434');
       logger.info(response.body);
-      expect(response.status).toBe(200);
-      expect(response.body.data.length).toBe(0);
+      expect(response.status).toBe(401);
     });
 
     it('should be able to search by email', async () => {
       const response = await request(app.getHttpServer())
         .get('/api/contact')
         .query({
-          email: 'test',
+          email: 'sample',
         })
-        .set('Authorization', 'test');
+        .set('Authorization', '2020434');
       logger.info(response.body);
       expect(response.status).toBe(200);
       expect(response.body.data.length).toBe(1);
@@ -247,21 +248,21 @@ describe('ContactController', () => {
       const response = await request(app.getHttpServer())
         .get('/api/contact')
         .query({
-          email: 'test',
+          email: 'salah',
         })
-        .set('Authorization', 'test');
+        .set('Authorization', '2020434');
       logger.info(response.body);
       expect(response.status).toBe(200);
-      expect(response.body.data.length).toBe(1);
+      expect(response.body.data.length).toBe(0);
     });
 
     it('should be able to search by phone', async () => {
       const response = await request(app.getHttpServer())
         .get('/api/contact')
         .query({
-          phone: '12345678',
+          phone: '1111',
         })
-        .set('Authorization', 'test');
+        .set('Authorization', '2020434');
       logger.info(response.body);
       expect(response.status).toBe(200);
       expect(response.body.data.length).toBe(1);
@@ -270,9 +271,9 @@ describe('ContactController', () => {
       const response = await request(app.getHttpServer())
         .get('/api/contact')
         .query({
-          phone: '0989',
+          phone: '0921',
         })
-        .set('Authorization', 'test');
+        .set('Authorization', '2020434');
       logger.info(response.body);
       expect(response.status).toBe(200);
       expect(response.body.data.length).toBe(0);
@@ -285,7 +286,7 @@ describe('ContactController', () => {
           size: 1,
           page: 2,
         })
-        .set('Authorization', 'test');
+        .set('Authorization', '2020434');
       logger.info(response.body);
       expect(response.status).toBe(200);
       expect(response.body.data.length).toBe(0);

@@ -1,10 +1,5 @@
 import { PrismaService } from '../prisma/prisma.service';
-import {
-  HttpException,
-  HttpStatus,
-  Inject,
-  NotFoundException,
-} from '@nestjs/common';
+import { Inject, NotFoundException } from '@nestjs/common';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { Logger } from 'winston';
 import { ValidationService } from '../validation/validation.service';
@@ -15,7 +10,7 @@ import {
   GetAddressRequest,
   UpdateAddressRequest,
 } from '../model/address.model';
-import * as client from '../../generated/prisma';
+import * as client from '@prisma/client';
 import { AddressValidation } from './address.validation';
 import { ContactService } from '../contact/contact.service';
 export class AddressService {

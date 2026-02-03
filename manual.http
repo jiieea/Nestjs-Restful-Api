@@ -1,0 +1,46 @@
+POST http://localhost:3000/api/users
+Content-Type: application/json
+Accept: application/json
+
+{
+  "username": "AsyncFnc",
+  "password": "rahasia",
+  "name": "Yves"
+}
+
+
+### login user
+POST http://localhost:3000/api/users/login
+Content-Type: application/json
+Accept: application/json
+
+{
+  "username": "AsyncFnc",
+  "password" : "rahasia"
+}
+
+### Get user
+GET http://localhost:3000/api/users/current
+Accept: application/json
+Authorization: 0fc87baf-9a2d-42f5-bc87-dd482ccb9e41
+
+### Update user
+PATCH http://localhost:3000/api/users/current
+Accept: application/json
+Authorization: 0fc87baf-9a2d-42f5-bc87-dd482ccb9e41
+Content-Type: application/json
+
+{
+  "name": "Castillon"
+}
+
+
+### Logout user
+DELETE http://localhost:3000/api/users/current
+Accept: application/json
+Authorization: 0fc87baf-9a2d-42f5-bc87-dd482ccb9e41
+
+
+
+
+

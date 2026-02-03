@@ -12,7 +12,7 @@ import {
   Patch,
 } from '@nestjs/common';
 import { UserService } from './user.service';
-import * as client from '../../../generated/prisma/client';
+import * as client from '@prisma/client';
 import {
   UserLoginRequest,
   userLoginValidation,
