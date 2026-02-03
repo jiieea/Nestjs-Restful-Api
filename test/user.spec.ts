@@ -8,11 +8,14 @@ import { AppModule } from '../src/app.module';
 import { TestService } from './test.service';
 import { TestModule } from './test.module';
 
+jest.mock('uuid', () => ({
+  v4: () => '2020434', // Force every v4 call to return your test token
+}));
 describe('UserController', () => {
   let app: INestApplication<App>;
   let logger: Logger;
   let testService: TestService;
-  beforeEach(async () => {
+  beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule, TestModule],
     }).compile();
@@ -22,14 +25,14 @@ describe('UserController', () => {
 
     logger = app.get(WINSTON_MODULE_PROVIDER);
     testService = app.get(TestService);
+  }, 10000);
+  afterAll(async () => {
+    await app.close();
   });
 
   describe('POST /api/users', () => {
     beforeEach(async () => {
-      await testService.deleteUser();
-    });
-    afterEach(async () => {
-      await app.close();
+      await testService.deleteAll();
     });
     it('should be rejected if request is not valid', async () => {
       const response = await request(app.getHttpServer())
@@ -48,13 +51,13 @@ describe('UserController', () => {
       const response = await request(app.getHttpServer())
         .post('/api/users')
         .send({
-          username: 'FlexCode',
-          password: 'atmin123',
-          name: 'Yves Castillon',
+          username: 'TestUser',
+          password: 'sample',
+          name: 'User',
         });
       logger.info(response.body);
       expect(response.status).toBe(200);
-      expect(response.body.data.username).toBe('FlexCode');
+      expect(response.body.data.username).toBe('TestUser');
     });
 
     it('should be rejected if username already exist', async () => {
@@ -62,22 +65,20 @@ describe('UserController', () => {
       const response = await request(app.getHttpServer())
         .post('/api/users')
         .send({
-          username: 'FlexCode',
-          password: 'atmin123',
-          name: 'Yves Castillon',
+          username: 'TestUser',
+          password: 'sample123',
+          name: 'User',
         });
       logger.info(response.body);
       expect(response.status).toBe(404);
       expect(response.body.errors).toBeDefined();
     });
   });
+
   describe('POST /api/users/login', () => {
     beforeEach(async () => {
-      await testService.deleteUser();
+      await testService.deleteAll();
       await testService.createUser();
-    });
-    afterEach(async () => {
-      await app.close();
     });
     it('should be rejected if request is not valid', async () => {
       const response = await request(app.getHttpServer())
@@ -96,23 +97,20 @@ describe('UserController', () => {
       const response = await request(app.getHttpServer())
         .post('/api/users/login')
         .send({
-          username: 'FlexCode',
-          password: 'atmin123',
+          username: 'TestUser',
+          password: 'sample',
         });
       logger.info(response.body);
       expect(response.status).toBe(200);
-      expect(response.body.data.username).toBe('FlexCode');
+      expect(response.body.data.username).toBe('TestUser');
       expect(response.body.data.token).toBeDefined();
     });
   });
 
   describe('GET /api/users/current', () => {
     beforeEach(async () => {
-      await testService.deleteUser();
+      await testService.deleteAll();
       await testService.createUser();
-    });
-    afterEach(async () => {
-      await app.close();
     });
     it('should be rejected if token is not valid', async () => {
       const response = await request(app.getHttpServer())
@@ -126,27 +124,24 @@ describe('UserController', () => {
     it('should be get user', async () => {
       const response = await request(app.getHttpServer())
         .get('/api/users/current')
-        .set('Authorization', 'atmin');
-      logger.info(response.body);
+        .set('Authorization', '2020434');
+      // logger.info(response.body);
       expect(response.status).toBe(200);
-      expect(response.body.data.username).toBe('FlexCode');
-      expect(response.body.data.name).toBe('Yves Castillon');
+      expect(response.body.data.username).toBe('TestUser');
+      expect(response.body.data.name).toBe('User');
     });
   });
 
   describe('PATCH /api/users/current', () => {
     beforeEach(async () => {
-      await testService.deleteUser();
+      await testService.deleteAll();
       await testService.createUser();
-    });
-    afterEach(async () => {
-      await app.close();
     });
     it('should be rejected if request is not valid', async () => {
       const response = await request(app.getHttpServer())
         .patch('/api/users/current')
         .set('Authorization', 'Wrong');
-      logger.info(response.body);
+      // logger.info(response.body);
       expect(response.status).toBe(401);
       expect(response.body.errors).toBeDefined();
     });
@@ -154,48 +149,45 @@ describe('UserController', () => {
     it('should be update name', async () => {
       const response = await request(app.getHttpServer())
         .patch('/api/users/current')
-        .set('Authorization', 'test')
+        .set('Authorization', '2020434')
         .send({
           name: 'Zheeva',
         });
-      logger.info(response.body);
+      // logger.info(response.body);
       expect(response.status).toBe(200);
-      expect(response.body.data.username).toBe('Jieyra@30');
+      expect(response.body.data.username).toBe('TestUser');
       expect(response.body.data.name).toBe('Zheeva');
     });
 
     it('should be update password', async () => {
       let response = await request(app.getHttpServer())
         .patch('/api/users/current')
-        .set('Authorization', 'test')
+        .set('Authorization', '2020434')
         .send({
           password: 'new password',
         });
-      logger.info(response.body);
+      // logger.info(response.body);
       expect(response.status).toBe(200);
-      expect(response.body.data.username).toBe('Jieyra@30');
-      expect(response.body.data.name).toBe('Jieyra');
+      expect(response.body.data.username).toBe('TestUser');
+      expect(response.body.data.name).toBe('User');
 
       response = await request(app.getHttpServer())
         .post('/api/users/login')
         .send({
-          username: 'Jieyra@30',
+          username: 'TestUser',
           password: 'new password',
         });
-      logger.info(response.body);
+      // logger.info(response.body);
       expect(response.status).toBe(200);
-      expect(response.body.data.username).toBe('Jieyra@30');
+      expect(response.body.data.username).toBe('TestUser');
       expect(response.body.data.token).toBeDefined();
     });
   });
 
   describe('DELETE /api/users/current', () => {
     beforeEach(async () => {
-      await testService.deleteUser();
+      await testService.deleteAll();
       await testService.createUser();
-    });
-    afterEach(async () => {
-      await app.close();
     });
     it('should be rejected if request is not valid', async () => {
       const response = await request(app.getHttpServer())
@@ -209,8 +201,8 @@ describe('UserController', () => {
     it('should be logout', async () => {
       const response = await request(app.getHttpServer())
         .delete('/api/users/current')
-        .set('Authorization', 'test');
-      logger.info(response.body);
+        .set('Authorization', '2020434');
+      // logger.info(response.body);
       expect(response.status).toBe(200);
       expect(response.body.data).toBe(true);
     });

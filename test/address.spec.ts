@@ -212,6 +212,47 @@ describe('AddressController', () => {
     });
   });
 
+  describe('GET /api/contact/:contactId/addresses', () => {
+    beforeEach(async () => {
+      await testService.deleteAll();
+
+      await testService.createUser();
+      await testService.createContact();
+      await testService.createAddress();
+    });
+
+    it('should be rejected if contact is not found', async () => {
+      const contact = await testService.getContact();
+      if (!contact) {
+        throw new HttpException('Not Found', 404);
+      }
+      const response = await request(app.getHttpServer())
+        .get(`/api/contact/${contact.id + 1}/addresses`)
+        .set('Authorization', 'atmin');
+      logger.info(response.body);
+      expect(response.status).toBe(404);
+      expect(response.body.errors).toBeDefined();
+    });
+
+    it('should be list addresses', async () => {
+      const contact = await testService.getContact();
+      if (!contact) {
+        throw new HttpException('Not Found', 404);
+      }
+      const response = await request(app.getHttpServer())
+        .get(`/api/contact/${contact.id}/addresses`)
+        .set('Authorization', 'atmin');
+      logger.info(response.body);
+      expect(response.status).toBe(200);
+      expect(response.body.data.length).toBe(1);
+      expect(response.body.data[0].street).toBe('jl.tebet');
+      expect(response.body.data[0].city).toBe('kota tebet');
+      expect(response.body.data[0].province).toBe('provinsi jaksen');
+      expect(response.body.data[0].country).toBe('negara indo');
+      expect(response.body.data[0].postal_code).toBe('101032');
+    });
+  });
+
   describe('DELETE /api/contact/:contactId/addresses/:addressId', () => {
     beforeEach(async () => {
       await testService.deleteAll();

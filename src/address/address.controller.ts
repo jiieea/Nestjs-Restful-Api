@@ -9,7 +9,12 @@ import {
 } from '@nestjs/common';
 import { AddressService } from './address.service';
 import * as client from '../../generated/prisma';
-import { AddressResponse, CreateAddressRequest, UpdateAddressRequest } from '../model/address.model';
+import {
+  AddressResponse,
+  CreateAddressRequest,
+  DeleteAddressRequest,
+  UpdateAddressRequest,
+} from '../model/address.model';
 import { WebModel } from '../model/web.model';
 import { Auth } from '../middlewares/auth/auth.decorator';
 import request from 'supertest';
@@ -70,10 +75,25 @@ export class AddressController {
     @Param('addressId', ParseIntPipe) addressId: number,
     @Param('contactId', ParseIntPipe) contactId: number,
   ): Promise<WebModel<boolean>> {
-    await this.addressService.delete(user, addressId, contactId);
-
+    const request: DeleteAddressRequest = {
+      contact_id: contactId,
+      id: addressId,
+    };
+    await this.addressService.delete(user, request);
     return {
       data: true,
+    };
+  }
+
+  @Get()
+  @HttpCode(200)
+  async list(
+    @Param('contactId', ParseIntPipe) contactId: number,
+    @Auth() user: client.User,
+  ): Promise<WebModel<AddressResponse[]>> {
+    const result = await this.addressService.list(user, contactId);
+    return {
+      data: result,
     };
   }
 }

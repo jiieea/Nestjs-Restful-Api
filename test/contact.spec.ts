@@ -12,7 +12,7 @@ describe('ContactController', () => {
   let app: INestApplication<App>;
   let logger: Logger;
   let testService: TestService;
-  beforeEach(async () => {
+  beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule, TestModule],
     }).compile();
@@ -22,12 +22,15 @@ describe('ContactController', () => {
 
     logger = app.get(WINSTON_MODULE_PROVIDER);
     testService = app.get(TestService);
+  }, 10000);
+
+  afterAll(async () => {
+    await app.close();
   });
 
   describe('POST /api/contact', () => {
     beforeEach(async () => {
-      await testService.deleteContact();
-      await testService.deleteUser();
+      await testService.deleteAll();
       await testService.createUser();
     });
     afterEach(async () => {
@@ -70,8 +73,7 @@ describe('ContactController', () => {
 
   describe('GET /api/contact/:contactId', () => {
     beforeEach(async () => {
-      await testService.deleteContact();
-      await testService.deleteUser();
+      await testService.deleteAll();
       await testService.createUser();
       await testService.createContact();
     });
@@ -105,13 +107,10 @@ describe('ContactController', () => {
 
   describe('PUT /api/contact/:contactId', () => {
     beforeEach(async () => {
-      await testService.deleteContact();
-      await testService.deleteUser();
+      await testService.deleteAll();
+
       await testService.createUser();
       await testService.createContact();
-    });
-    afterEach(async () => {
-      await app.close();
     });
     it('should be rejected if request is not valid', async () => {
       const contact = await testService.getContact();
@@ -168,15 +167,10 @@ describe('ContactController', () => {
 
   describe('DELETE /api/contact/:contactId', () => {
     beforeEach(async () => {
-      await testService.deleteContact();
-      await testService.deleteUser();
+      await testService.deleteAll();
       await testService.createUser();
       await testService.createContact();
     });
-    afterEach(async () => {
-      await app.close();
-    });
-
     it('should be rejected if contact is not found', async () => {
       const contact = await testService.getContact();
       const response = await request(app.getHttpServer())
@@ -200,14 +194,11 @@ describe('ContactController', () => {
 
   describe('GET /api/contact', () => {
     beforeEach(async () => {
-      await testService.deleteContact();
-      await testService.deleteUser();
+      await testService.deleteAll();
       await testService.createUser();
       await testService.createContact();
     });
-    afterEach(async () => {
-      await app.close();
-    });
+
     it('should be able to search contacts', async () => {
       const response = await request(app.getHttpServer())
         .get(`/api/contact`)

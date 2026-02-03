@@ -95,6 +95,9 @@ export class UserService {
   }
 
   async get(user: client.User): Promise<UserResponse> {
+    if (!user) {
+      throw new HttpException('User not found', 401);
+    }
     return {
       username: user.username,
       name: user.name,
