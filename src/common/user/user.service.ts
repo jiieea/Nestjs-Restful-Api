@@ -11,9 +11,8 @@ import {
 } from '../../model/user.model';
 import { UserValidation } from './user.validation';
 import * as bcrypt from 'bcrypt';
-import { v4 as uuid } from 'uuid';
 import * as client from '@prisma/client';
-
+import { v4 as uuid } from 'uuid';
 @Injectable()
 export class UserService {
   constructor(
