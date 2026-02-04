@@ -41,6 +41,82 @@ Accept: application/json
 Authorization: 0fc87baf-9a2d-42f5-bc87-dd482ccb9e41
 
 
+### Create Contact
+POST http://localhost:3000/api/contact
+Content-Type: application/json
+Accept: application/json
+Authorization: 202ae79e-585a-4d3c-98d0-9b404b4f8888
 
+{
+  "first_name": "Vincent",
+  "last_name": "Le Teileur",
+  "email": "vincent@dev.clom",
+  "phone": "1110011"
+}
+
+### Update Contact
+PUT http://localhost:3000/api/contact/505
+Content-Type: application/json
+Accept: application/json
+Authorization: 202ae79e-585a-4d3c-98d0-9b404b4f8888
+
+{
+  "first_name": "Yves",
+  "last_name": "Castillon",
+  "email": "void_code@dev.com",
+  "phone": "0212321"
+}
+
+### Search Contact
+GET http://localhost:3000/api/contact
+Authorization: 202ae79e-585a-4d3c-98d0-9b404b4f8888
+Accept: application/json
+
+
+### Remove Contact
+DELETE http://localhost:3000/api/contact/506
+Authorization: 202ae79e-585a-4d3c-98d0-9b404b4f8888
+Accept: application/json
+
+### Create Address
+POST http://localhost:3000/api/contact/505/addresses
+Authorization: 202ae79e-585a-4d3c-98d0-9b404b4f8888
+Accept: application/json
+Content-Type: application/json
+
+{
+  "street": "Pisangan Baru",
+  "city": "Jakarta Timur",
+  "province": "DKI Jakarta",
+  "country": "Indonesia",
+  "postal_code": "13100"
+}
+
+
+### Update Address
+PUT http://localhost:3000/api/contact/505/addresses/44
+Authorization: 202ae79e-585a-4d3c-98d0-9b404b4f8888
+Content-Type: application/json
+Accept: application/json
+
+{
+  "street": "Saint-Genis-Laval",
+  "city": "Lyon",
+  "province": "Auvergne-Rhône-Alpes",
+  "country": "France",
+  "postal_code": "12100"
+}
+
+
+### List contact
+GET http://localhost:3000/api/contact/505/addresses
+Authorization:  202ae79e-585a-4d3c-98d0-9b404b4f8888
+Accept: application/json
+
+
+### Remove Contact
+DELETE http://localhost:3000/api/contact/505/addresses/47
+Authorization:  202ae79e-585a-4d3c-98d0-9b404b4f8888
+Accept: application/json
 
 

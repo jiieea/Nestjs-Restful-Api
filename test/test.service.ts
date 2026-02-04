@@ -16,20 +16,6 @@ export class TestService implements OnModuleDestroy {
     });
   }
 
-  async deleteContact() {
-    await this.prisma.contact.deleteMany({
-      where: {
-        username: 'TestUser',
-      },
-    });
-
-    await this.prisma.user.deleteMany({
-      where: {
-        username: 'TestUser',
-      },
-    });
-  }
-
   async deleteAll() {
     await this.prisma.address.deleteMany({});
 
