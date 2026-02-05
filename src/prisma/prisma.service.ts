@@ -9,7 +9,7 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
   constructor(@Inject(WINSTON_MODULE_PROVIDER) private logger: Logger) {
     const adapter = new PrismaMariaDb({
       host: process.env.DATABASE_HOST,
-      port: 17545,
+      port: Number(process.env.DATABASE_PORT),
       user: process.env.DATABASE_USER,
       password: process.env.DATABASE_PASSWORD,
       connectionLimit: 5,
