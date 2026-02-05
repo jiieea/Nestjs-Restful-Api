@@ -22,16 +22,16 @@ Accept: application/json
 ### Get user
 GET http://localhost:17545/api/users/current
 Accept: application/json
-Authorization: 0fc87baf-9a2d-42f5-bc87-dd482ccb9e41
+Authorization: d120fe7f-9aec-488f-9101-557dd96611f0
 
 ### Update user
 PATCH http://localhost:17545/api/users/current
 Accept: application/json
-Authorization: 0fc87baf-9a2d-42f5-bc87-dd482ccb9e41
+Authorization: d120fe7f-9aec-488f-9101-557dd96611f0
 Content-Type: application/json
 
 {
-  "name": "Castillon"
+  "name": "Tsugikuni"
 }
 
 
@@ -45,7 +45,7 @@ Authorization: 37ef1519-5473-4f02-8d0e-d9569ac1a019
 POST http://localhost:17545/api/contact
 Content-Type: application/json
 Accept: application/json
-Authorization: 202ae79e-585a-4d3c-98d0-9b404b4f8888
+Authorization: d120fe7f-9aec-488f-9101-557dd96611f0
 
 {
   "first_name": "Vincent",

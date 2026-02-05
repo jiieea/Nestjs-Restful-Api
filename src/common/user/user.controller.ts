@@ -31,6 +31,11 @@ export class UserController {
     return `get user with id ${id}`;
   }
 
+  @Get()
+  greeting() {
+    return 'Hello World';
+  }
+
   @Post()
   @HttpCode(200)
   async createUser(
