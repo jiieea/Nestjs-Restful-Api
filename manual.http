@@ -38,7 +38,7 @@ Content-Type: application/json
 ### Logout user
 DELETE http://localhost:3000/api/users/current
 Accept: application/json
-Authorization: 0fc87baf-9a2d-42f5-bc87-dd482ccb9e41
+Authorization:  545d049d-53d3-4b96-be2e-af7012d9858b
 
 
 ### Create Contact
