@@ -1,13 +1,29 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
+import { configure as serverlessExpress } from '@codegenie/serverless-express';
+import { Callback, Context, Handler } from 'aws-lambda';
 
-async function bootstrap() {
+let server: Handler;
+
+async function bootstrap(): Promise<Handler> {
   const app = await NestFactory.create(AppModule);
+
+  // Apply your global configs here (pipes, interceptors, etc.)
   app.enableCors();
-  const logger = app.get(WINSTON_MODULE_NEST_PROVIDER);
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-  app.useLogger(logger);
-  await app.listen(process.env.PORT ?? 3000);
+
+  await app.init();
+
+  const expressApp = app.getHttpAdapter().getInstance();
+  return serverlessExpress({ app: expressApp });
 }
-bootstrap();
+
+// The Vercel entry point
+export const handler: Handler = async (
+  event: any,
+  context: Context,
+  callback: Callback,
+) => {
+  server = server ?? (await bootstrap());
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+  return server(event, context, callback);
+};

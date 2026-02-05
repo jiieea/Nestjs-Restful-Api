@@ -3,9 +3,9 @@ Content-Type: application/json
 Accept: application/json
 
 {
-  "username": "Vermilion",
-  "password": "atmin",
-  "name": "Jieyra"
+  "username": "Yoriichi",
+  "password": "untech async",
+  "name": "yoriichi"
 }
 
 
@@ -15,8 +15,8 @@ Content-Type: application/json
 Accept: application/json
 
 {
-  "username": "AsyncFnc",
-  "password" : "rahasia"
+  "username": "Yoriichi",
+  "password" : "untech async"
 }
 
 ### Get user
