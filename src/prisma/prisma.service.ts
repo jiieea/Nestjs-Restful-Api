@@ -12,11 +12,8 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
       port: 17545,
       user: process.env.DATABASE_USER,
       password: process.env.DATABASE_PASSWORD,
-      connectionLimit: 20,
+      connectionLimit: 5,
       database: process.env.DATABASE_NAME,
-      ssl: {
-        rejectUnauthorized: false,
-      },
     });
     super({
       adapter,

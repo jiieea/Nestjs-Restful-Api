@@ -1,4 +1,4 @@
-POST http://localhost:3000/api/users
+POST http://localhost:17545/api/users
 Content-Type: application/json
 Accept: application/json
 
@@ -10,7 +10,7 @@ Accept: application/json
 
 
 ### login user
-POST http://localhost:3000/api/users/login
+POST http://localhost:17545/api/users/login
 Content-Type: application/json
 Accept: application/json
 
@@ -20,12 +20,12 @@ Accept: application/json
 }
 
 ### Get user
-GET http://localhost:3000/api/users/current
+GET http://localhost:17545/api/users/current
 Accept: application/json
 Authorization: 0fc87baf-9a2d-42f5-bc87-dd482ccb9e41
 
 ### Update user
-PATCH http://localhost:3000/api/users/current
+PATCH http://localhost:17545/api/users/current
 Accept: application/json
 Authorization: 0fc87baf-9a2d-42f5-bc87-dd482ccb9e41
 Content-Type: application/json
@@ -36,13 +36,13 @@ Content-Type: application/json
 
 
 ### Logout user
-DELETE http://localhost:3000/api/users/current
+DELETE http://localhost:17545/api/users/current
 Accept: application/json
 Authorization: 37ef1519-5473-4f02-8d0e-d9569ac1a019
 
 
 ### Create Contact
-POST http://localhost:3000/api/contact
+POST http://localhost:17545/api/contact
 Content-Type: application/json
 Accept: application/json
 Authorization: 202ae79e-585a-4d3c-98d0-9b404b4f8888
@@ -55,7 +55,7 @@ Authorization: 202ae79e-585a-4d3c-98d0-9b404b4f8888
 }
 
 ### Update Contact
-PUT http://localhost:3000/api/contact/505
+PUT http://localhost:17545/api/contact/505
 Content-Type: application/json
 Accept: application/json
 Authorization: 202ae79e-585a-4d3c-98d0-9b404b4f8888
@@ -68,18 +68,18 @@ Authorization: 202ae79e-585a-4d3c-98d0-9b404b4f8888
 }
 
 ### Search Contact
-GET http://localhost:3000/api/contact
+GET http://localhost:17545/api/contact
 Authorization: 202ae79e-585a-4d3c-98d0-9b404b4f8888
 Accept: application/json
 
 
 ### Remove Contact
-DELETE http://localhost:3000/api/contact/506
+DELETE http://localhost:17545/api/contact/506
 Authorization: 202ae79e-585a-4d3c-98d0-9b404b4f8888
 Accept: application/json
 
 ### Create Address
-POST http://localhost:3000/api/contact/505/addresses
+POST http://localhost:17545/api/contact/505/addresses
 Authorization: 202ae79e-585a-4d3c-98d0-9b404b4f8888
 Accept: application/json
 Content-Type: application/json
@@ -94,7 +94,7 @@ Content-Type: application/json
 
 
 ### Update Address
-PUT http://localhost:3000/api/contact/505/addresses/44
+PUT http://localhost:17545/api/contact/505/addresses/44
 Authorization: 202ae79e-585a-4d3c-98d0-9b404b4f8888
 Content-Type: application/json
 Accept: application/json
@@ -109,13 +109,13 @@ Accept: application/json
 
 
 ### List contact
-GET http://localhost:3000/api/contact/505/addresses
+GET http://localhost:17545/api/contact/505/addresses
 Authorization:  202ae79e-585a-4d3c-98d0-9b404b4f8888
 Accept: application/json
 
 
 ### Remove Contact
-DELETE http://localhost:3000/api/contact/505/addresses/47
+DELETE http://localhost:17545/api/contact/505/addresses/47
 Authorization:  202ae79e-585a-4d3c-98d0-9b404b4f8888
 Accept: application/json
 
