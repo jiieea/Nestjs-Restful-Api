@@ -7,6 +7,7 @@ async function bootstrap() {
 
   const port = process.env.PORT || 17545;
   const logger = app.get(WINSTON_MODULE_NEST_PROVIDER);
+  app.enableCors();
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   app.useLogger(logger);
   // Use '0.0.0.0' to ensure Railway can route traffic to the container
