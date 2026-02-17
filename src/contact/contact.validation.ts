@@ -33,7 +33,7 @@ export class ContactValidation {
   static readonly SEARCHGLOBAL: ZodType<SearchGloballyContactRequest> =
     z.object({
       search: z.string().min(1).optional(),
-      page: z.number().positive().min(1).optional(),
-      size: z.number().positive().min(1).optional(),
+      page: z.coerce.number().positive().min(1).optional(),
+      size: z.coerce.number().positive().min(1).optional(),
     });
 }

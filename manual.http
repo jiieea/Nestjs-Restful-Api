@@ -68,7 +68,7 @@ Authorization: 202ae79e-585a-4d3c-98d0-9b404b4f8888
 }
 
 ### Search Contact
-GET http://localhost:17545/api/contact?search=Y&page=1&size=10
+GET http://localhost:17545/api/contact
 Authorization: 5e702da3-f5a3-4d2a-98ff-a6cf23bcf8aa
 Accept: application/json
 

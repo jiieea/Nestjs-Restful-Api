@@ -154,7 +154,9 @@ export class ContactService {
       });
     }
 
-    const skip = (searchRequest.page - 1) * searchRequest.size;
+    const page = searchRequest.page ?? 1;
+    const size = searchRequest.size ?? 10;
+    const skip = (page - 1) * size;
     const total = await this.prismaService.contact.count({
       where: {
         username: user.username,
@@ -176,7 +178,7 @@ export class ContactService {
       paging: {
         current_page: searchRequest.page,
         size: searchRequest.size,
-        total_page: Math.ceil(total / searchRequest.size),
+        total_page: Math.ceil(total / size),
       },
     };
   }
@@ -189,7 +191,10 @@ export class ContactService {
       ContactValidation.SEARCHGLOBAL,
       request,
     );
-    const skip = (searchRequest.page! - 1) * searchRequest.size!;
+
+    const page = searchRequest.page ?? 1;
+    const size = searchRequest.size ?? 10;
+    const skip = (page - 1) * size;
 
     const whereCondition: any = {
       username: user.username,
@@ -228,16 +233,16 @@ export class ContactService {
 
     const contacts = await this.prismaService.contact.findMany({
       where: whereCondition,
-      take: searchRequest.size,
+      take: size,
       skip: skip,
     });
 
     return {
       data: contacts.map((c) => this.toContactResponse(c)),
       paging: {
-        current_page: searchRequest.page,
-        size: searchRequest.size,
-        total_page: Math.ceil(total / searchRequest.size!),
+        current_page: page,
+        size: size,
+        total_page: Math.ceil(total / size),
       },
     };
   }
