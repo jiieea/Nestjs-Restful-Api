@@ -14,6 +14,7 @@ import {
 import { ValidationService } from '../validation/validation.service';
 import { WebModel } from '../model/web.model';
 import { UserValidation } from '../common/user/user.validation';
+import { Prisma } from '@prisma/client';
 @Injectable()
 export class ContactService {
   constructor(
@@ -201,29 +202,30 @@ export class ContactService {
     };
 
     if (searchRequest.search) {
-      whereCondition.OR = [
+      whereCondition.AND = [
         {
-          first_name: {
-            contains: searchRequest.search,
-            mode: 'insensitive',
-          },
-        },
-        {
-          last_name: {
-            contains: searchRequest.search,
-            mode: 'insensitive',
-          },
-        },
-        {
-          email: {
-            contains: searchRequest.search,
-            mode: 'insensitive',
-          },
-        },
-        {
-          phone: {
-            contains: searchRequest.search,
-          },
+          OR: [
+            {
+              first_name: {
+                contains: searchRequest.search,
+              },
+            },
+            {
+              last_name: {
+                contains: searchRequest.search,
+              },
+            },
+            {
+              email: {
+                contains: searchRequest.search,
+              },
+            },
+            {
+              phone: {
+                contains: searchRequest.search,
+              },
+            },
+          ],
         },
       ];
     }
