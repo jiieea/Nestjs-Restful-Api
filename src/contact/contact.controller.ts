@@ -79,7 +79,7 @@ export class ContactController {
   @HttpCode(200)
   async search(
     @Auth() user: client.User,
-    @Query() query: SearchGloballyContactRequest,
+    @Query('search') query: SearchGloballyContactRequest,
   ): Promise<WebModel<ContactResponse[]>> {
     return this.contactService.searchGlobal(user, query);
   }
