@@ -28,3 +28,9 @@ export class SearchContactRequest {
   page: number; // Keep required
   size: number; // Keep required
 }
+
+export class SearchGloballyContactRequest {
+  search?: string;
+  page?: number = 1;
+  size?: number = 10; // Keep required
+}

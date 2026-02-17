@@ -15,7 +15,7 @@ import * as client from '@prisma/client';
 import {
   ContactResponse,
   CreateContactRequest,
-  SearchContactRequest,
+  SearchContactRequest, SearchGloballyContactRequest,
   UpdateContactRequest,
 } from '../model/contact.model';
 import { WebModel } from '../model/web.model';
@@ -79,20 +79,8 @@ export class ContactController {
   @HttpCode(200)
   async search(
     @Auth() user: client.User,
-    @Query('name') name?: string,
-    @Query('email') email?: string,
-    @Query('phone') phone?: string,
-    @Query('page', new ParseIntPipe({ optional: true })) page?: number,
-    @Query('size', new ParseIntPipe({ optional: true })) size?: number,
+    @Query() query: SearchGloballyContactRequest,
   ): Promise<WebModel<ContactResponse[]>> {
-    const request: SearchContactRequest = {
-      name: name,
-      email: email,
-      phone: phone,
-      page: page || 1,
-      size: size || 10,
-    }
-
-    return this.contactService.search(user, request);
+    return this.contactService.searchGlobal(user, query);
   }
 }

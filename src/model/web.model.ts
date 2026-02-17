@@ -5,7 +5,7 @@ export class WebModel<T> {
 }
 
 export class Paging {
-  size: number;
-  current_page: number;
-  total_page: number;
+  size?: number;
+  current_page?: number;
+  total_page?: number;
 }

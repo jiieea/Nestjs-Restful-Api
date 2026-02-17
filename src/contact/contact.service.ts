@@ -8,10 +8,12 @@ import {
   ContactResponse,
   CreateContactRequest,
   SearchContactRequest,
+  SearchGloballyContactRequest,
   UpdateContactRequest,
 } from '../model/contact.model';
 import { ValidationService } from '../validation/validation.service';
 import { WebModel } from '../model/web.model';
+import { UserValidation } from '../common/user/user.validation';
 @Injectable()
 export class ContactService {
   constructor(
@@ -175,6 +177,67 @@ export class ContactService {
         current_page: searchRequest.page,
         size: searchRequest.size,
         total_page: Math.ceil(total / searchRequest.size),
+      },
+    };
+  }
+
+  async searchGlobal(
+    user: client.User,
+    request: SearchGloballyContactRequest,
+  ): Promise<WebModel<ContactResponse[]>> {
+    const searchRequest = this.validationService.validation(
+      ContactValidation.SEARCHGLOBAL,
+      request,
+    );
+    const skip = (searchRequest.page! - 1) * searchRequest.size!;
+
+    const whereCondition: any = {
+      username: user.username,
+    };
+
+    if (searchRequest.search) {
+      whereCondition.OR = [
+        {
+          first_name: {
+            contains: searchRequest.search,
+            mode: 'insensitive',
+          },
+        },
+        {
+          last_name: {
+            contains: searchRequest.search,
+            mode: 'insensitive',
+          },
+        },
+        {
+          email: {
+            contains: searchRequest.search,
+            mode: 'insensitive',
+          },
+        },
+        {
+          phone: {
+            contains: searchRequest.search,
+          },
+        },
+      ];
+    }
+    const total = await this.prismaService.contact.count({
+      where: whereCondition,
+    });
+
+    const contacts = await this.prismaService.contact.findMany({
+      where: whereCondition,
+      take: searchRequest.size,
+      skip: skip,
+    });
+
+    return {
+      data: contacts.map((c) => this.toContactResponse(c)),
+      paging: {
+        current_page: searchRequest.page,
+        size: searchRequest.size,
+        total_page: Math.ceil(total / searchRequest.size!),
       },
     };
   }
