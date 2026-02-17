@@ -5,7 +5,7 @@ import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  const port = process.env.PORT || 17545;
+  const port = process.env.PORT || 3000;
   const logger = app.get(WINSTON_MODULE_NEST_PROVIDER);
   app.enableCors();
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
