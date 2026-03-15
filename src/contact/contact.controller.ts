@@ -46,7 +46,6 @@ export class ContactController {
     return {
       data: result,
     };
-    5;
   }
 
   @Put('/:contactId')

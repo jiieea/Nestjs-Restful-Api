@@ -100,10 +100,8 @@ export class ContactService {
     const deleteContact = await this.prismaService.contact.delete({
       where: {
         id: contactId,
-        username: user.username,
       },
     });
-
     return this.toContactResponse(deleteContact);
   }
 
